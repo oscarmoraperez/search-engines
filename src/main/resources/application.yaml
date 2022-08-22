@@ -2,3 +2,6 @@ spring:
   data:
     solr:
       host: http://localhost:8983/solr
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

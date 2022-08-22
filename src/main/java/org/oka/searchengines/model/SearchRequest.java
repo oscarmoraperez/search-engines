@@ -1,12 +1,19 @@
 package org.oka.searchengines.model;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-@Value
+@Data
+@AllArgsConstructor
+@Builder
 public class SearchRequest {
     String field;
     String value;
     String facetField;
-    String fullText;
+    boolean fullText = false;
     String q;
+
+    public SearchRequest() {
+    }
 }

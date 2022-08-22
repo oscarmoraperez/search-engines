@@ -22,9 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Testcontainers
-public class BookRepository_saveIndexedBooks_IT {
+public class ExtendedBookRepository_saveIndexedBooks_IT {
     @Autowired
-    BookRepository bookRepository;
+    ExtendedBookRepository bookRepository;
     @Container
     static SolrContainer container = new SolrContainer(DockerImageName.parse("solr:8.8"))
             .withCollection("books")
@@ -41,8 +41,8 @@ public class BookRepository_saveIndexedBooks_IT {
         // Given
         String title1 = RandomStringUtils.randomAlphabetic(8);
         String title2 = RandomStringUtils.randomAlphabetic(8);
-        IndexedBook book1 = new IndexedBook(title1, List.of("author1"), "content", "en");
-        IndexedBook book2 = new IndexedBook(title2, List.of("author2"), "content2", "es");
+        IndexedBook book1 = new IndexedBook(title1, List.of("author1"), "content", "en", List.of());
+        IndexedBook book2 = new IndexedBook(title2, List.of("author2"), "content2", "es", List.of());
 
         // When
         bookRepository.saveIndexedBooks(List.of(book1, book2));

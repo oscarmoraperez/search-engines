@@ -2,7 +2,8 @@ package org.oka.searchengines.controller;
 
 import org.oka.searchengines.model.IndexedBook;
 import org.oka.searchengines.model.SearchRequest;
-import org.oka.searchengines.repository.BookRepository;
+import org.oka.searchengines.model.SearchResponse;
+import org.oka.searchengines.repository.ExtendedBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class SearchController {
     @Autowired
-    BookRepository bookRepository;
+    ExtendedBookRepository bookRepository;
 
     @GetMapping(value = "/api/v1/book/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<IndexedBook> getBook(@PathVariable("id") final Long id) {
@@ -27,7 +28,8 @@ public class SearchController {
     }
 
     @PostMapping(value = "/api/v1/book/search")
-    public ResponseEntity<SearchRequest> search(@RequestBody SearchRequest searchRequest) {
-        return null;
+    public ResponseEntity<SearchResponse> search(@RequestBody SearchRequest searchRequest) {
+
+        return new ResponseEntity<>(bookRepository.search(searchRequest), OK);
     }
 }

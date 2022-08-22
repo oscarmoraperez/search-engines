@@ -1,13 +1,13 @@
 package org.oka.searchengines.init;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.apache.commons.io.FileUtils;
 import org.oka.searchengines.model.IndexedBook;
-import org.oka.searchengines.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.oka.searchengines.repository.ExtendedBookRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -23,11 +23,11 @@ import static java.util.stream.Collectors.toList;
 @Component
 //@Profile("dev")
 @Log
+@RequiredArgsConstructor
 public class Initializer {
-    @Autowired
-    private BookRepository bookRepository;
     @Value("classpath:data")
-    private Resource dataFolder;
+    Resource dataFolder;
+    private final ExtendedBookRepository extendedBookRepository;
 
     @PostConstruct
     public void init() throws IOException {
@@ -47,6 +47,6 @@ public class Initializer {
             List<String> subjects = new ArrayList<>(book.getMetadata().getSubjects());
             indexedBooks.add(new IndexedBook(book.getTitle(), authors, sb.toString(), book.getMetadata().getLanguage(), subjects));
         }
-        this.bookRepository.saveIndexedBooks(indexedBooks);
+        extendedBookRepository.saveIndexedBooks(indexedBooks);
     }
 }
