@@ -5,9 +5,5 @@ services:
     ports:
       - "8983:8983"
     volumes:
-      - data:/var/solr
-    command:
-      - solr-precreate
-      - books
-volumes:
-  data:
+      - ./solr/solrconfig.xml:/opt/solr/conf/solrconfig.xml
+    command: 'bash -e -c "precreate-core books; cp /opt/solr/conf/solrconfig.xml /var/solr/data/books/conf/solrconfig.xml; solr-foreground;"'

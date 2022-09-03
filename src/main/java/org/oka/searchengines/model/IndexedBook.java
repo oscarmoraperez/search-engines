@@ -1,8 +1,11 @@
 package org.oka.searchengines.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -14,36 +17,28 @@ import java.util.List;
 @Setter
 @SolrDocument(solrCoreName = "books")
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class IndexedBook {
     @Id
-    @Indexed(name = "identifier", type = "long")
+    @Indexed(name = "identifier_s", type = "long")
     private Long id;
-    @Indexed(name = "title", type = "string")
-    private String title = null;
-    @Indexed(name = "authors", type = "string")
-    private List<String> authors = null;
-    @Indexed(name = "content", type = "string")
-    private String content = null;
-    @Indexed(name = "language", type = "string")
-    private String language = null;
-    @Indexed(name = "subjects", type = "string")
-    private List<String> subjects = null;
-
-    public IndexedBook(List<Long> id, List<String> title, List<String> authors, List<String> content, List<String> language, List<String> subjects) {
-        this.id = id.get(0);
-        this.title = title.get(0);
-        this.authors = authors;
-        this.content = content.get(0);
-        this.language = language.get(0);
-        this.subjects = subjects;
-    }
-
-    public IndexedBook(String title, List<String> authors, String content, String language, List<String> subjects) {
-        this.title = title;
-        this.authors = authors;
-        this.content = content;
-        this.language = language;
-        this.subjects = subjects;
-    }
+    @NonNull
+    @Indexed(name = "title_s", type = "string")
+    private String title;
+    @NonNull
+    @Indexed(name = "authors_sm", type = "string")
+    private List<String> authors;
+    @NonNull
+    @Indexed(name = "content_t", type = "string")
+    private String content;
+    @NonNull
+    @Indexed(name = "language_s", type = "string")
+    private String language;
+    @NonNull
+    @Indexed(name = "subjects_sm", type = "string")
+    private List<String> subjects;
+    @Indexed(name = "suggest_t", type = "string")
+    private String suggest;
 }

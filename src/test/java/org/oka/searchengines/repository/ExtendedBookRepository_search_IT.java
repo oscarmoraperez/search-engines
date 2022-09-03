@@ -1,6 +1,7 @@
 package org.oka.searchengines.repository;
 
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.oka.searchengines.model.IndexedBook;
 import org.oka.searchengines.model.SearchRequest;
@@ -37,12 +38,17 @@ public class ExtendedBookRepository_search_IT {
         registry.add("spring.data.solr.host", () -> "http://" + container.getHost() + ":" + container.getSolrPort() + "/solr");
     }
 
+    @BeforeEach
+    public void beforeEach() {
+        bookRepository.deleteAll();
+    }
+
     @Test
-    public void shouldRerturnTheBooks() {
+    public void shouldReturnTheBooks() {
         // Given
         Collection<IndexedBook> books = prepare100Books();
         bookRepository.saveIndexedBooks(books);
-        SearchRequest searchRequest = SearchRequest.builder().field("content").value("demo").facetField("subjects").build();
+        SearchRequest searchRequest = SearchRequest.builder().field("content_t").value("demo").facetField("subjects").build();
 
         // When
         SearchResponse search = bookRepository.search(searchRequest);
@@ -57,7 +63,7 @@ public class ExtendedBookRepository_search_IT {
         // Given
         Collection<IndexedBook> books = prepare100Books();
         bookRepository.saveIndexedBooks(books);
-        SearchRequest searchRequest = SearchRequest.builder().facetField("subjects").fullText(true).q("demo").build();
+        SearchRequest searchRequest = SearchRequest.builder().facetField("subjects_sm").fullText(true).q("content_t:demo").build();
 
         // When
         SearchResponse search = bookRepository.search(searchRequest);
@@ -69,7 +75,13 @@ public class ExtendedBookRepository_search_IT {
     private Collection<IndexedBook> prepare100Books() {
         Collection<IndexedBook> books = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            books.add(new IndexedBook("title" + i, List.of("author" + i), "demo", "en", List.of("subject" + (i % 10))));
+            IndexedBook book1 = IndexedBook.builder()
+                    .title("title" + i)
+                    .authors(List.of("author" + i))
+                    .content("demo")
+                    .language("en")
+                    .subjects(List.of("subject" + (i % 10))).build();
+            books.add(book1);
         }
         return books;
     }

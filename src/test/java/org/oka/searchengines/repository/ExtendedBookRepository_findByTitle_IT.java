@@ -41,8 +41,8 @@ public class ExtendedBookRepository_findByTitle_IT {
         // Given
         String title1 = RandomStringUtils.randomAlphabetic(8);
         String title2 = RandomStringUtils.randomAlphabetic(8);
-        IndexedBook book1 = new IndexedBook(title1, List.of("author1"), "content", "en", List.of());
-        IndexedBook book2 = new IndexedBook(title2, List.of("author2"), "content2", "es", List.of());
+        IndexedBook book1 = IndexedBook.builder().title(title1).authors(List.of("author1")).content("content").language("en").subjects(List.of()).build();
+        IndexedBook book2 = IndexedBook.builder().title(title2).authors(List.of("author2")).content("content2").language("es").subjects(List.of()).build();
         bookRepository.saveIndexedBooks(List.of(book1, book2));
 
         // When

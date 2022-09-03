@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.oka.searchengines.model.IndexedBook;
+import org.oka.searchengines.model.SearchRequest;
 import org.oka.searchengines.repository.BookRepository;
 import org.oka.searchengines.repository.ExtendedBookRepository;
 import org.oka.searchengines.service.BookService;
@@ -13,11 +14,10 @@ import org.oka.searchengines.service.BookService;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SearchController_getBook_Test {
+public class SearchController_search_Test {
     @InjectMocks
     SearchController searchController;
     @Mock
@@ -26,12 +26,12 @@ public class SearchController_getBook_Test {
     @Test
     public void shouldCallService() {
         // Given
-        when(bookService.findById(anyLong())).thenReturn(new IndexedBook());
+        SearchRequest searchRequest = mock(SearchRequest.class);
 
         // When
-        searchController.getBook(44L);
+        searchController.search(searchRequest);
 
         // Then
-        verify(bookService).findById(44L);
+        verify(bookService).search(searchRequest);
     }
 }

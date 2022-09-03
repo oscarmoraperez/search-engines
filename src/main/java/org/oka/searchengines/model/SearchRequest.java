@@ -11,6 +11,7 @@ public class SearchRequest {
     String field;
     String value;
     String facetField;
+    @Builder.Default
     boolean fullText = false;
     String q;
 
