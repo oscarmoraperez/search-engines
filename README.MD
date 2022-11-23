@@ -1,6 +1,6 @@
-# Java Mentoring Program: Search engines
+# Search engines
 
-This maven-based project contains the exercises defined in the 'Search engines' module of Java Mentoring program.
+This maven-based project contains a demo project on how to interact with an Apache SOLR instance for the storage of ebooks. 
 
 0) To run the project one have the following options:
 
